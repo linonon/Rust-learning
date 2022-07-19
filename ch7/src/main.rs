@@ -40,3 +40,11 @@ pub fn eat_at_resturant() {
     println!("I'd like {} toast please", meal.toast);
     // meal.seasonal_fruit = String::from("blueberries");
 }
+
+use std::collections::*;
+use std::{
+    fmt::Result,
+    io::{self, Result as IoResult},
+};
+// fn f1() -> fmt::Result {}
+// fn f2() -> io::Result {}

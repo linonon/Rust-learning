@@ -134,16 +134,47 @@ fn main() {
         // println!("r: {}", r)
 
         let string = String::from("abdc");
-        let string2 = "xyz";
-
-        let string_max = max(string.as_str(), string2);
-        println!("string max: {}", string_max);
+        let string_max;
+        {
+            let string2 = String::from("xyz");
+            string_max = max(string.as_str(), string2.as_str());
+            println!("string max: {}", string_max);
+        }
 
         fn max<'a>(x: &'a str, y: &'a str) -> &'a str {
             if x.len() > y.len() {
                 return x;
             }
             y
+        }
+    }
+    // 方法中定義的聲明週期標註
+    {
+        struct ImportantExcerpt<'a> {
+            part: &'a str,
+        }
+
+        impl<'a> ImportantExcerpt<'a> {
+            fn level(&self) -> i32 {
+                3
+            }
+            fn announce_and_return_part(&self, announcement: &str) -> &str {
+                println!("Attention please, {}", announcement);
+                self.part
+            }
+        }
+    }
+    {
+        fn max_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str
+        where
+            T: Display,
+        {
+            println!("Announcemnet {}", ann);
+            if x.len() > y.len() {
+                x
+            } else {
+                y
+            }
         }
     }
 }

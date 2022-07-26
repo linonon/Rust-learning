@@ -1,7 +1,7 @@
 use std::fmt::{Debug, Display};
 
 fn main() {
-    println!("Hello, world!");
+    println!("Hell&o, world!");
     // 消除重複代碼
     {
         fn max<T: PartialOrd + Clone>(list: &[T]) -> &T {
@@ -35,6 +35,7 @@ fn main() {
     // Struct 泛型
     {
         // 類型過多時, 應該 重組單元
+        #[derive(Debug)]
         struct Point<T, U> {
             x: T,
             y: U,
@@ -42,6 +43,8 @@ fn main() {
 
         let integer = Point { x: 1, y: 2 };
         let float = Point { x: 1.1, y: 2.2 };
+        println!("{:?}", integer.x);
+        println!("{:?}", float.y);
     }
     // Enum 泛型
     {
@@ -93,8 +96,8 @@ fn main() {
         pub struct Tweet {
             pub username: String,
             pub contents: String,
-            pub reply: String,
-            pub retweets: String,
+            pub reply: bool,
+            pub retweets: bool,
         }
 
         impl Summary for Tweet {
@@ -103,24 +106,39 @@ fn main() {
             }
         }
 
+        let tweet_log = Tweet {
+            username: "linonon".to_string(),
+            contents: "ononlin".to_string(),
+            reply: true,
+            retweets: false,
+        };
+
         // Trait 作為參數
-        pub fn notify_impl_trait(item: impl Summary) {
-            println!("Breaking news: {}", item.summerize());
+        pub fn notify_impl_trait(item: &impl Summary) {
+            println!("notify impl trait: {}", item.summerize());
         }
 
-        pub fn notify_trait_bound<T: Summary>(item: T) {
-            println!("Breaking news: {}", item.summerize());
+        notify_impl_trait(&news);
+        notify_impl_trait(&tweet_log);
+
+        pub fn notify_trait_bound<T: Summary>(item: &T) {
+            println!("notify trait bound: {}", item.summerize());
         }
 
-        pub fn notify_trait_plus<T: Summary + Display>(item: T) {}
+        notify_trait_bound(&news);
+        notify_trait_bound(&tweet_log);
 
-        pub fn notify_where<T, U>(item: T, item2: U)
-        where
-            T: Display + Summary,
-            U: Clone + Debug,
-        {
-            todo!()
-        }
+        // pub fn notify_trait_plus<T: Summary + Display>(item: &T) {}
+
+        // notify_trait_plus(&news);
+
+        // pub fn notify_where<T, U>(item: T, item2: U)
+        // where
+        //     T: Display + Summary,
+        //     U: Clone + Debug,
+        // {
+        //     todo!()
+        // }
     }
     /*
            生命週期
@@ -163,6 +181,12 @@ fn main() {
                 self.part
             }
         }
+
+        let s = ImportantExcerpt { part: "linonon" };
+        println!("{:?}", s.level());
+
+        let b = s.announce_and_return_part("what?");
+        println!("{:?}", b);
     }
     {
         fn max_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str
@@ -171,10 +195,16 @@ fn main() {
         {
             println!("Announcemnet {}", ann);
             if x.len() > y.len() {
+                println!("x is max: {}", x);
                 x
             } else {
+                println!("y is max: {}", y);
                 y
             }
         }
+        let x = "1";
+        let y = "2";
+        let ann = "3";
+        max_with_an_announcement(x, y, ann);
     }
 }

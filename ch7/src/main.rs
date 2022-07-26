@@ -9,7 +9,7 @@ fn main() {
     // - Path(路径): 为了struct, function 或 module 等项命名的方式
 }
 
-fn server_order() {}
+// fn server_order() {}
 
 mod back_of_house {
     // fn fix_incorrect_order() {
@@ -31,6 +31,9 @@ mod back_of_house {
                 seasonal_fruit: (String::from("peaches")),
             }
         }
+        pub fn get_seasonal_fruit(self) -> String {
+            self.seasonal_fruit
+        }
     }
 }
 
@@ -38,13 +41,14 @@ pub fn eat_at_resturant() {
     let mut meal = back_of_house::Breakfast::summer("Rye");
     meal.toast = String::from("Wheat");
     println!("I'd like {} toast please", meal.toast);
+    println!("seasonal_fruit: {}", meal.get_seasonal_fruit());
     // meal.seasonal_fruit = String::from("blueberries");
 }
 
-use std::collections::*;
-use std::{
-    fmt::Result,
-    io::{self, Result as IoResult},
-};
+// use std::collections::*;
+// use std::{
+//     fmt::Result,
+//     io::{self, Result as IoResult},
+// };
 // fn f1() -> fmt::Result {}
 // fn f2() -> io::Result {}

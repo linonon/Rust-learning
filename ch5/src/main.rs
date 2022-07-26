@@ -22,6 +22,9 @@ fn main() {
         };
 
         println!("user name: {}", user.username);
+        println!("email: {}", user.email);
+        println!("sign_in_count: {}", user.sign_in_count);
+        println!("active: {}", user.active);
     }
     //
     {

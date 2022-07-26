@@ -7,25 +7,30 @@ fn main() {
 
     // 枚舉值
     {
+        #[derive(Debug)]
         enum IPAddKind {
             V4,
             V6,
         }
 
-        let IPv4 = IPAddKind::V4;
-        let IPv6 = IPAddKind::V6;
+        let ipv4 = IPAddKind::V4;
+        let ipv6 = IPAddKind::V6;
 
-        route(IPv4);
-        route(IPv6);
+        route(ipv4);
+        route(ipv6);
 
-        fn route(ip: IPAddKind) {}
+        fn route(ip: IPAddKind) {
+            println!("route:{:?}", ip);
+        }
     }
     {
+        #[derive(Debug)]
         enum IPAddKind {
             V4,
             V6,
         }
 
+        #[derive(Debug)]
         struct IPAddr {
             kind: IPAddKind,
             address: String,
@@ -35,22 +40,28 @@ fn main() {
             kind: IPAddKind::V4,
             address: String::from("127.0.0.1"),
         };
+        println!("{:?}, {}", home.kind, home.address);
 
         let loopback = IPAddr {
             kind: IPAddKind::V6,
             address: String::from("::1"),
         };
+        println!("{:?}", loopback);
 
+        #[derive(Debug)]
         enum IPAddrKindV2 {
             V4(u8, u8, u8, u8),
             V6(String),
         }
 
-        let homeV2 = IPAddrKindV2::V4(127, 0, 0, 1);
-        let lookbackV2 = IPAddrKindV2::V6(String::from("::1"));
+        let home_v2 = IPAddrKindV2::V4(127, 0, 0, 1);
+        let lookback_v2 = IPAddrKindV2::V6(String::from("::1"));
+        println!("{:?}", home_v2);
+        println!("{:?}", lookback_v2);
     }
     // Message
     {
+        #[derive(Debug, PartialEq)]
         enum Message {
             Quit,
             Move { x: i32, y: i32 },
@@ -59,8 +70,30 @@ fn main() {
         }
 
         impl Message {
-            fn call(&self) {}
+            fn call(&self) {
+                match self {
+                    Message::Move { x, y } => {
+                        println!("call self, but is Move: x = {}, y = {}", x, y)
+                    }
+                    _ => println!("call self: {:?}", self),
+                }
+            }
         }
+
+        let msg_move = Message::Move { x: 10, y: 12 };
+        let msg_quit = Message::Quit;
+        let msg_write = Message::Write(String::from("write"));
+        let msg_change_color = Message::ChangeColor(10, 10, 10);
+
+        println!("{:?}", msg_move);
+        println!("{:?}", msg_quit);
+        println!("{:?}", msg_write);
+        println!("{:?}", msg_change_color);
+
+        msg_move.call();
+        msg_quit.call();
+        msg_write.call();
+        msg_change_color.call();
     }
     // Option
     {
@@ -77,6 +110,10 @@ fn main() {
         let absent_number: Option<i32> = None;
         let normal_number: i32 = 1;
 
+        println!(
+            "{:?},{:?},{:?},{}",
+            num, string, absent_number, normal_number
+        );
         // 无法转换
         // let tmp = absent_number + normal_number;
     }
@@ -111,8 +148,17 @@ fn main() {
             }
         }
 
-        let c = Coin::Quarter(UsState::Alaska);
-        println!("{:?}", value_in_cents(c))
+        let d = Coin::Penny;
+        let e = Coin::Nickel;
+        let f = Coin::Dime;
+        let g1 = Coin::Quarter(UsState::Alaska);
+        let g2 = Coin::Quarter(UsState::Alabama);
+
+        println!("value: {:?}", value_in_cents(f));
+        println!("value: {:?}", value_in_cents(d));
+        println!("value: {:?}", value_in_cents(e));
+        println!("value: {:?}", value_in_cents(g1));
+        println!("value: {:?}", value_in_cents(g2));
     }
 
     // match: 匹配 Option<T>
@@ -165,6 +211,7 @@ fn main() {
         // } else {
         //     println!("v: {:?}", v)
         // }
+        #[derive(Debug)]
         enum Choices {
             A,
             B,
@@ -174,6 +221,16 @@ fn main() {
         let choices: Choices = Choices::C(2);
         if let Choices::C(value) = choices {
             println!("{}", value * 2)
+        }
+
+        let choices: Choices = Choices::A;
+        if let Choices::A = choices {
+            println!("choices enum = {:?}", choices)
+        }
+
+        let choices: Choices = Choices::B;
+        if let Choices::B = choices {
+            println!("choices enum = {:?}", choices)
         }
     }
 }

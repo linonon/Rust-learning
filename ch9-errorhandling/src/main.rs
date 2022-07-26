@@ -11,6 +11,7 @@ fn main() {
         // panic!("crach and burn")
 
         let v = vec![1, 2, 3];
+        println!("{:?}", v);
 
         // v[99];
         // ↑ panic
@@ -28,6 +29,7 @@ fn main() {
                 other => panic!("Error opening file: {:?}", other),
             },
         };
+        println!("{:?}", f);
     }
     // {
     //     //unwarp
@@ -72,5 +74,6 @@ fn main() {
     {
         // 如果可以確定 Result 就是 Ok 時
         let home: IpAddr = "127.0.0.1".parse().unwrap();
+        println!("home = {}", home)
     }
 }

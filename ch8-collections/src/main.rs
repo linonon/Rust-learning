@@ -32,10 +32,11 @@ fn main() {
     // String cp.1
     {
         let data = "initial contents";
+
         let s = data.to_string();
         let s1 = "initial contents".to_string();
-
         let s2 = String::from("initial contents");
+        println!("s, s1, s2: {}, {}, {}", s, s1, s2);
     }
     {
         let mut s = String::from("foo");
@@ -95,6 +96,7 @@ fn main() {
         let teams = vec![String::from("Blue"), String::from("Yellow")];
         let intial_scores = vec![10, 50];
         let scores: HashMap<_, _> = teams.iter().zip(intial_scores.iter()).collect();
+        println!("scores: HashMap = {:?}", scores);
     }
     {
         let key = String::from("key");

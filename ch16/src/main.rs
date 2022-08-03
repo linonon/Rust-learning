@@ -1,4 +1,4 @@
-use std::{thread, time::Duration};
+use std::{sync::mpsc, thread, time::Duration};
 
 fn main() {
     let handle = thread::spawn(|| {
@@ -30,4 +30,13 @@ fn move_closuer() {
 }
 
 #[test]
+fn channel_test() {
+    let (tx, rx) = mpsc::channel();
+    thread::spawn(move || {
+        let val = String::from("hi");
+        tx.send(val).unwrap();
+    });
 
+    let received = rx.recv().unwrap();
+    println!("Got: {}", received);
+}
